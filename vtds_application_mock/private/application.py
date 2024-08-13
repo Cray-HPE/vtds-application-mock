@@ -20,17 +20,18 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-"""Private layer implementation module for the mock application.
+"""Layer implementation module for the mock application.
 
 """
 
 from vtds_base import (
     ContextualError,
 )
+from vtds_base.layers.application import ApplicationAPI
 
 
-class PrivateApplication:
-    """PrivateApplication class, implements the mock application layer
+class Application(ApplicationAPI):
+    """Application class, implements the mock application layer
     accessed through the python Application API.
 
     """
@@ -40,26 +41,21 @@ class PrivateApplication:
         caller that will drive all activities at all layers.
 
         """
-        self.config = config
+        self.__doc__ = ApplicationAPI.__doc__
+        self.config = config.get('application', None)
+        if self.config is None:
+            raise ContextualError(
+                "no application configuration found in top level configuration"
+            )
         self.stack = stack
         self.build_dir = build_dir
         self.prepared = False
 
     def prepare(self):
-        """Prepare operation. This drives creation of the application
-        layer definition and any configuration that need to be driven
-        down into the application layer to be ready for deployment.
-
-        """
         self.prepared = True
         print("Preparing vtds-application-mock")
 
     def validate(self):
-        """Run the terragrunt plan operation on a prepared mock
-        application layer to make sure that the configuration produces a
-        useful result.
-
-        """
         if not self.prepared:
             raise ContextualError(
                 "cannot validate an unprepared application, "
@@ -68,11 +64,6 @@ class PrivateApplication:
         print("Validating vtds-application-mock")
 
     def deploy(self):
-        """Deploy operation. This drives the deployment of application
-        layer resources based on the layer definition. It can only be
-        called after the prepare operation (prepare()) completes.
-
-        """
         if not self.prepared:
             raise ContextualError(
                 "cannot deploy an unprepared application, call prepare() first"
@@ -80,10 +71,6 @@ class PrivateApplication:
         print("Deploying vtds-application-mock")
 
     def remove(self):
-        """Remove operation. This will remove all resources
-        provisioned for the application layer.
-
-        """
         if not self.prepared:
             raise ContextualError(
                 "cannot deploy an unprepared application, call prepare() first"
