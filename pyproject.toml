@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 [project]
-name = 'vtds-application-mock'
+name = 'vtds_application_mock'
 authors = [
     { name = 'Eric Lund', email = 'eric.lund@hpe.com' },
 ]
