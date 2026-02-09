@@ -88,7 +88,7 @@ exclude = ['vtds_application_mock.tests*']
 [build-system]
 build-backend = 'setuptools.build_meta'
 requires = [
-    'setuptools ~= 66.0',
+    'setuptools ~= 82.0',
     'setuptools_scm[toml] ~= 9.2.0',
     'wheel ~= 0.45.1',
 ]
